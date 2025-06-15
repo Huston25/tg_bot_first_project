@@ -9,7 +9,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         [InlineKeyboardButton("🎲 Рандомный факт", callback_data="random_fact")],
         [InlineKeyboardButton("🤖 ChatGPT", callback_data="gpt_interface")],
         [InlineKeyboardButton("👥 Диалог с личностью", callback_data="talk_interface")],
-        [InlineKeyboardButton("🧠 Квиз (скоро)", callback_data="quiz_coming_soon")],
+        [InlineKeyboardButton("🧠 Квиз", callback_data="quiz_interface")],
+        [InlineKeyboardButton("🎭 Рекомендации кино", callback_data="recc_command")]
     ]
     replay_markup = InlineKeyboardMarkup(keyboard)
 
@@ -20,7 +21,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "    💡 Рандомный факт - получи интересный факт\n"
         "    🤖 ChatGPT - общение с ИИ\n"
         "    🤩Диалог с личностью - говори с известными людьми\n"
-        "    🎯 Квиз - проверь свои знания (в разработке)\n\n"
+        "    🎯 Квиз - проверь свои знания\n\n"
+        "     Рекомендации кино, книг\n\n"
         "Выберите функцию из меню ниже:"
     )
 

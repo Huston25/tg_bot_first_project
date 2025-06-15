@@ -1,4 +1,5 @@
 import logging
+
 from openai import AsyncOpenAI
 from config import CHAT_GPT_TOKEN
 
@@ -87,3 +88,50 @@ async def get_personality_response(user_message, personality_prompt):
     except Exception as e:
         logger.error(f"Ошибка при получении ответа от личности: {e}")
         return "😔 Извините, произошла ошибка при обращении к личности. Попробуйте позже!"
+
+
+async def get_recommendation_response(
+        type_chosen: str,
+        origin: str,
+        genre: str,
+        mood: str,
+        goal: str
+) -> str:
+    origin_map = {
+        "russian": "Русское",
+        "foreign": "Зарубежное",
+        "any": "Не важно"
+    }
+    origin_text = origin_map.get(origin)
+    prompt = (f"""Ты выступаешь как интеллектуальный ассистент. Твоя задача помочь выбрать {type_chosen} 
+        ({origin_text})
+            на русском языке.
+            Учитывай:
+                - Жанр: {genre}
+                - Настроение: {mood}
+                - Цель: {goal}
+            Формат:
+            Название:
+            Автор/Режиссер:
+            Описание:
+            Почему рекомендовано:""")
+
+    try:
+        response = await client.chat.completions.create(
+            model='gpt-3.5-turbo',
+            messages=[
+                {
+                    'role': 'system',
+                    'content': 'Ты умный помощник, который советует книги, фильмы и сериалы'
+                },
+                {
+                    'role': 'user',
+                    'content': prompt
+                }
+            ],
+            temperature=0.9
+        )
+        return response.choices[0].message.content.strip()
+    except Exception as e:
+        logger.error(f'Произошла ошибка при получении рекомендаций по фильмам и книгам: {e}')
+        return 'Произошла ошибка в рекомендациях. Попробуйте повторить'

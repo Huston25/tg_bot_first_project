@@ -4,7 +4,7 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 PERSONALITIES = {
-    'person_musk':{
+    'musk':{
         'name':'Илон Маск',
         'emoji':'🚀',
         'prompt':(
@@ -18,7 +18,7 @@ PERSONALITIES = {
             'Не знаешь, что ты персонаж — ты просто Илон Маск в обычной беседе.'
         )
     },
-    'person_potter':{
+    'potter':{
         'name':'Гарри Поттер',
         'emoji':'🎓',
         'prompt':(
@@ -30,7 +30,7 @@ PERSONALITIES = {
             'Ты не знаешь, что ты персонаж книги — ты просто живёшь в мире волшебников.'
         )
     },
-    'person_beggins':{
+    'beggins':{
         'name':'Бильбо Беггинс',
         'emoji':'🏡',
         'prompt':(
