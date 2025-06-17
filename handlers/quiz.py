@@ -24,8 +24,8 @@ async def quiz_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         message_text = (
             "🧠 <b>Квиз - проверь свои знания!</b>\n\n"
             "Выберите тему для квиза:\n\n"
-            "💻 <b>Программирование</b> - вопросы о коде и технологиях\n"
-            "🏛️ <b>История</b> - исторические факты и события\n"
+            "🔮 <b>Гарри Поттер</b> - вопросы о коде и технологиях\n"
+            "⭕ <b>Вселенная 'Властелина колец'</b> - исторические факты и события\n"
             "🔬 <b>Наука</b> - физика, химия, биология\n"
             "🌍 <b>География</b> - страны, столицы, природа\n"
             "🎬 <b>Кино</b> - фильмы и актеры\n\n"
@@ -283,7 +283,8 @@ async def handle_quiz_callback(update: Update, context: ContextTypes.DEFAULT_TYP
                 [InlineKeyboardButton("🎲 Случайный факт", callback_data="random_interface")],
                 [InlineKeyboardButton("🤖 ChatGPT", callback_data="gpt_interface")],
                 [InlineKeyboardButton("👥 Диалог с личностью", callback_data="talk_interface")],
-                [InlineKeyboardButton("🧠 Квиз", callback_data="quiz_interface")]
+                [InlineKeyboardButton("🧠 Квиз", callback_data="quiz_interface")],
+                [InlineKeyboardButton("🎭 Рекомендации кино, книг, сериала", callback_data="recc_command")]
             ]
             reply_markup = InlineKeyboardMarkup(keyboard)
 

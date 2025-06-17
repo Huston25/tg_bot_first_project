@@ -44,6 +44,7 @@ async def type_chosen(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await query.answer()
 
     context.user_data['type'] = query.data
+    context.user_data["previous_recommendations"] = []
 
     keyboard = [
         [InlineKeyboardButton("Русское", callback_data="russian")],
@@ -94,6 +95,9 @@ async def goal_chosen(update: Update, context: ContextTypes.DEFAULT_TYPE):
             user_data['goal']
         )
 
+        context.user_data.setdefault("previous_recommendations", [])
+        context.user_data["previous_recommendations"].append(recommendation.strip())
+
         await update.message.reply_text(recommendation)
 
         logger.info('Ответ по рекомендациям книг и фильмам получен успешно')
@@ -131,13 +135,16 @@ async def recommend_item(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if query.data == "more_recommendation":
         logger.info('еще рекомендации')
+        used = context.user_data.get("previous_recommendations", [])
         recommendation = await get_recommendation_response(
             u["type"],
             u["origin"],
             u["genre"],
             u["mood"],
             u["goal"],
+            used
             )
+        context.user_data["previous_recommendations"].append(recommendation.strip())
 
         try:
             await query.message.reply_text(recommendation, reply_markup=reply_markup, parse_mode='HTML')

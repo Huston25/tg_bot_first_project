@@ -153,11 +153,12 @@ async def handle_personality_message(update: Update, context: ContextTypes.DEFAU
         personality_response = await get_personality_response(user_message, personality_data['prompt'])
 
         keyboard = [
-            [InlineKeyboardButton('Продолжить диалог', callback_data='continue_chat')],
+
             [InlineKeyboardButton('Выбрать другую личность', callback_data='change_personality')],
             [InlineKeyboardButton('Завершить диалог', callback_data='finish_chat')]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
+
 
         await processing_msg.delete()
         await update.message.reply_text(personality_response, reply_markup=reply_markup)
@@ -177,23 +178,19 @@ async def handle_personality_callback(update: Update, context: ContextTypes.DEFA
     query = update.callback_query
     await query.answer()
 
-    if query.data == 'continue_chat':
-        personality_data = context.user_data.get('personality_data')
-        if personality_data:
-            await query.edit_message_text(
-                f"{personality_data['emoji']}<b>Продолжаем разговор с {personality_data['name']}</b>\n\n"
-                'Пиши, отвечу на все твои вопросы: ',
-                parse_mode='HTML'
-            )
-            return CHATTING_WITH_PERSONALITY
-        return CHATTING_WITH_PERSONALITY
 
-    elif query.data == 'change_personality':
+
+    if query.data == 'change_personality':
         return await talk_start(update, context)
 
     elif query.data == 'finish_chat':
         context.user_data.pop('current_personality', None)
         context.user_data.pop('personality_data',None)
 
+        try:
+            await query.edit_message_text("Диалог завершен. Возвращаемся в главное меню.")
+
+        except Exception as e:
+            logger.error(f"Не удалось удалить сообщение: {e}")
         await start(update, context)
         return -1

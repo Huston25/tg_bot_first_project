@@ -60,7 +60,7 @@ def main():
                 CommandHandler("start", basic.start),
                 CallbackQueryHandler(basic.menu_callback, pattern="^main_menu$")
             ],
-            per_message=True
+            per_message=False
         )
 
         personality_conversation = ConversationHandler(
@@ -77,7 +77,7 @@ def main():
                     personality_chat.CHATTING_WITH_PERSONALITY: [
                         MessageHandler(filters.TEXT & ~filters.COMMAND, personality_chat.handle_personality_message),
                         CallbackQueryHandler(personality_chat.handle_personality_callback,
-                                            pattern='^(continue_chat|change_personality|finish_talk)$')
+                                            pattern='^(continue_chat|change_personality|finish_chat)$')
                     ],
                 },
             fallbacks=[
@@ -106,7 +106,9 @@ def main():
                                                                               pattern="^(more_recommendation|main_menu)$")]
 
             },
-            fallbacks=[CommandHandler("cancel", cancel)],
+            fallbacks=[
+                CommandHandler('start', basic.start),
+                CallbackQueryHandler(basic.menu_callback, pattern='^main_menu$')],
 
             per_message=False
         )
