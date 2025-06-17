@@ -8,8 +8,9 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
         [InlineKeyboardButton("🎲 Рандомный факт", callback_data="random_fact")],
         [InlineKeyboardButton("🤖 ChatGPT", callback_data="gpt_interface")],
-        [InlineKeyboardButton("👥 Диалог с личностью (скоро)", callback_data="talk_coming_soon")],
-        [InlineKeyboardButton("🧠 Квиз (скоро)", callback_data="quiz_coming_soon")],
+        [InlineKeyboardButton("👥 Диалог с личностью", callback_data="talk_interface")],
+        [InlineKeyboardButton("🧠 Квиз", callback_data="quiz_interface")],
+        [InlineKeyboardButton("🎭 Рекомендации кино, книг, сериала", callback_data="recc_command")]
     ]
     replay_markup = InlineKeyboardMarkup(keyboard)
 
@@ -19,12 +20,13 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "🚀 <b>Доступные функции:</b>\n"
         "    💡 Рандомный факт - получи интересный факт\n"
         "    🤖 ChatGPT - общение с ИИ\n"
-        "• Диалог с личностью - говори с известными людьми (в разработке)\n"
-        "    🎯 Квиз - проверь свои знания (в разработке)\n\n"
+        "    🤩Диалог с личностью - говори с известными людьми\n"
+        "    🎯 Квиз - проверь свои знания\n\n"
+        "     🎭 Рекомендации кино, книг, сериала\n\n"
         "Выберите функцию из меню ниже:"
     )
-
-    await update.effective_message.reply_text(welcome_text, parse_mode='HTML', reply_markup=replay_markup)
+    chat_id = update.effective_chat.id
+    await context.bot.send_message(chat_id=chat_id, text=welcome_text, parse_mode='HTML', reply_markup=replay_markup)
 
 
 async def menu_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
