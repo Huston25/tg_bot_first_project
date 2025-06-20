@@ -1,3 +1,6 @@
+"""Интерфейс с рекомендациями"""
+
+
 import logging
 
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
@@ -8,6 +11,7 @@ logger = logging.getLogger(__name__)
 TYPE, ORIGIN, GENRE, MOOD, GOAL, RECOMMENDING = range(6)
 
 async def recc_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Обработка команды /recommendation"""
     return await recc_start(update, context)
 
 async def recc_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -40,6 +44,7 @@ async def recc_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def type_chosen(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Обработка кнопок в рекомендации"""
     query = update.callback_query
     await query.answer()
 
@@ -119,6 +124,7 @@ async def goal_chosen(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def recommend_item(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Обработка кнопок после создания рекомендаций"""
     logger.info('Зашли в recommend_item')
 
     query = update.callback_query

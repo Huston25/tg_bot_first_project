@@ -1,3 +1,5 @@
+"""Реализация чата Гпт"""
+
 import logging
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ContextTypes
@@ -14,6 +16,7 @@ async def gpt_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await gpt_start(update, context)
 
 async def gpt_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Обработка начала диалога"""
     try:
         image_path = 'data/images/chatgpt.jpg'
         if os.path.exists(image_path):
@@ -67,7 +70,6 @@ async def handle_gpt_message(update: Update, context: ContextTypes.DEFAULT_TYPE)
         # Получаем ответ от ChatGPT
         gpt_response = await get_chatgpt_response(user_message)
 
-        # Создаем кнопки
         keyboard = [
             [InlineKeyboardButton("💬 Задать еще вопрос", callback_data="gpt_continue")],
             [InlineKeyboardButton("🏠 Вернуться в меню", callback_data="gpt_finish")]

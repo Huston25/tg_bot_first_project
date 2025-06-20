@@ -1,4 +1,5 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+"""Данные о квизе"""
 
 QUIZ_TOPICS = {
     "potter": {

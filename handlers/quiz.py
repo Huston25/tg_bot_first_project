@@ -1,3 +1,5 @@
+"""Интерфейс квиза"""
+
 import logging
 import os
 import re
@@ -88,6 +90,7 @@ async def quiz_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def topic_selected(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Выбор темы квиза"""
     query = update.callback_query
     await query.answer()
 
@@ -188,16 +191,13 @@ async def handle_quiz_answer(update: Update, context: ContextTypes.DEFAULT_TYPE)
         detailed_response = await get_personality_response(analysis_prompt,
                                                            "Ты эксперт по квизам, объясняешь ответы понятно и интересно.")
 
-        # Формируем результат
         if is_correct:
             result_text = f"✅ <b>Правильно!</b>\n\n{detailed_response}"
         else:
             result_text = f"❌ <b>Неправильно!</b>\n\nПравильный ответ: <b>{correct_answer}</b>\n\n{detailed_response}"
 
-        # Кнопки для продолжения
         keyboard = get_quiz_continue_keyboard(context.user_data['current_quiz_topic'])
 
-        # Удаляем сообщение об обработке и отправляем результат
         await processing_msg.delete()
         await update.message.reply_text(
             f"{topic_data['emoji']} <b>Результат квиза</b>\n\n"
@@ -229,7 +229,6 @@ async def handle_quiz_callback(update: Update, context: ContextTypes.DEFAULT_TYP
             context.user_data['current_quiz_topic'] = topic_key
             context.user_data['quiz_topic_data'] = get_quiz_topic_data(topic_key)
 
-            # Перенаправляем на выбор темы (это сгенерирует новый вопрос)
             fake_query_data = f"quiz_topic_{topic_key}"
             query.data = fake_query_data
             return await topic_selected(update, context)
@@ -238,7 +237,6 @@ async def handle_quiz_callback(update: Update, context: ContextTypes.DEFAULT_TYP
             return await quiz_start(update, context)
 
         elif query.data == "quiz_finish":
-            # Показываем финальный результат
             score = context.user_data.get('quiz_score', 0)
             total = context.user_data.get('quiz_total', 0)
 
@@ -270,7 +268,6 @@ async def handle_quiz_callback(update: Update, context: ContextTypes.DEFAULT_TYP
                 "Спасибо за участие! 🎉"
             )
 
-            # Очищаем данные квиза
             context.user_data.pop('quiz_score', None)
             context.user_data.pop('quiz_total', None)
             context.user_data.pop('current_quiz_topic', None)
@@ -278,7 +275,6 @@ async def handle_quiz_callback(update: Update, context: ContextTypes.DEFAULT_TYP
             context.user_data.pop('current_question', None)
             context.user_data.pop('correct_answer', None)
 
-            # Создаем кнопки главного меню
             keyboard = [
                 [InlineKeyboardButton("🎲 Случайный факт", callback_data="random_interface")],
                 [InlineKeyboardButton("🤖 ChatGPT", callback_data="gpt_interface")],
