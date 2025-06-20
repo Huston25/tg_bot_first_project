@@ -1,3 +1,5 @@
+"""Интерфейс диалога с личностями"""
+
 import logging
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ContextTypes
@@ -76,6 +78,7 @@ async def talk_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return -1
 
 async def personality_selected(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Обработка выбора личностей"""
     query = update.callback_query
     await query.answer()
 
@@ -133,6 +136,7 @@ async def personality_selected(update: Update, context: ContextTypes.DEFAULT_TYP
 
 
 async def handle_personality_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Обработка сообщений личностям"""
     try:
         user_message = update.message.text
         personality_key = context.user_data.get('current_personality')
@@ -174,7 +178,7 @@ async def handle_personality_message(update: Update, context: ContextTypes.DEFAU
 
 
 async def handle_personality_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
-
+    """Обработка кнопок в диалоге с личностями"""
     query = update.callback_query
     await query.answer()
 

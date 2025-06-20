@@ -1,3 +1,5 @@
+"""Интерфейс рандомный факт"""
+
 import logging
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ContextTypes
@@ -9,6 +11,7 @@ from services.open_ai import get_random_fact
 logger = logging.getLogger(__name__)
 
 async def random_fact(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Команда /random"""
     try:
         loading_msg = await update.effective_message.reply_text('Ищу интересный факт...')
         fact = await get_random_fact()
@@ -32,6 +35,7 @@ async def random_fact(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def random_fact_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Кнопки в рандом факте"""
     query = update.callback_query
     await query.answer()
 

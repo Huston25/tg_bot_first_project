@@ -1,4 +1,4 @@
-'''Добавить промты для известных личностей'''
+'''Данные об известных личностях'''
 
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
